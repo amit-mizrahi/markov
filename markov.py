@@ -28,8 +28,7 @@ def predict_next_word(s, word):
     transition_matrix = assemble_transition_matrix(s)
     if word in transition_matrix:
         next_word_dict = transition_matrix[word]
-        possible_next_words = utils.sort_keys_by_value(next_word_dict)
-        return possible_next_words[0]
+        return utils.choose_randomly_with_frequencies(next_word_dict)
     else:
         return None
 
@@ -44,11 +43,10 @@ def generate_markov_chain(s, start_word, length):
     transition_matrix = assemble_transition_matrix(s)
     if start_word in transition_matrix:
         current_word = start_word
-        result = []
+        result = [start_word]
         for i in xrange(length):
             next_word_dict = transition_matrix[current_word]
-            possible_next_words = utils.sort_keys_by_value(next_word_dict)
-            next_word = possible_next_words[0]
+            next_word = utils.choose_randomly_with_frequencies(next_word_dict)
             result.append(next_word)
             current_word = next_word
         return " ".join(result)
