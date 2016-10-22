@@ -9,6 +9,7 @@ def tokenize(s):
     tokens = s.split()
     tokens = map(lambda w : w.lower(), tokens)
     tokens = map(lambda w: w.translate(string.maketrans("", ""), string.punctuation), tokens)
+    tokens = map(lambda w: w.replace("\n", ""), tokens)
     return tokens
 
 def choose_randomly_with_frequencies(frequency_dict):
