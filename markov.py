@@ -1,4 +1,4 @@
-from utils import sort_keys_by_value
+import utils
 
 """ Predicts the next word in a string of text, treating text generation as a Markov process. """
 
@@ -9,7 +9,7 @@ def assemble_transition_matrix(s):
     ...}
     """
     transition_matrix = {}
-    tokens = s.split()
+    tokens = utils.tokenize(s)
     for i in xrange(0, len(tokens)-1):
         word = tokens[i]
         next_word = tokens[i+1]
@@ -28,7 +28,7 @@ def predict_next_word(s, word):
     transition_matrix = assemble_transition_matrix(s)
     if word in transition_matrix:
         next_word_dict = transition_matrix[word]
-        possible_next_words = sort_keys_by_value(next_word_dict)
+        possible_next_words = utils.sort_keys_by_value(next_word_dict)
         return possible_next_words[0]
     else:
         return None
@@ -47,7 +47,7 @@ def generate_markov_chain(s, start_word, length):
         result = []
         for i in xrange(length):
             next_word_dict = transition_matrix[current_word]
-            possible_next_words = sort_keys_by_value(next_word_dict)
+            possible_next_words = utils.sort_keys_by_value(next_word_dict)
             next_word = possible_next_words[0]
             result.append(next_word)
             current_word = next_word
