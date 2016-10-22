@@ -49,7 +49,7 @@ def assemble_ngram_transition_matrix(s):
     for i in xrange(0, len(tokens)-(MAX_N_GRAM - 1)):
         word = tokens[i]
         for j in xrange(1, MAX_N_GRAM):
-            next_words = " ".join(tokens[i:i+j])
+            next_words = " ".join(tokens[i+1:i+j])
             if word in transition_matrix:
                 if j in transition_matrix[word]:
                     if next_words in transition_matrix[word][j]:
@@ -98,6 +98,7 @@ def generate_ngram_markov_chain(s, start_word, length):
             random_n_gram = random.randint(1, MAX_N_GRAM - 1)
             next_words = utils.choose_randomly_with_frequencies(next_words_dict[random_n_gram])
             result.append(next_words)
+            current_word = next_words.split(" ")[-1]
         return " ".join(result)
     else:
         raise InvalidMarkovChain("Start word not found in corpus.")
@@ -127,3 +128,4 @@ def generate_ngram_chain_from_file(file, start_word, length):
 print predict_from_file('hamlet.txt', 'you')
 print generate_chain_from_file('hamlet.txt', 'you', 500)
 print generate_ngram_chain_from_file('hamlet.txt', 'you', 100)
+print generate_ngram_chain_from_file('dante.txt', 'the', 100)
